@@ -8,14 +8,18 @@ import javax.persistence.ManyToMany;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.security.jpa.RolesValue;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@NoArgsConstructor
 public class Role extends PanacheEntity {
     public static Role add(final String string) {
-	final var role = new Role(string);
-	role.persist();
-	return role;
+        final var role = new Role(string);
+        role.persist();
+        return role;
     }
 
     @ManyToMany(mappedBy = "roles")
@@ -24,10 +28,7 @@ public class Role extends PanacheEntity {
     @RolesValue
     public String role;
 
-    public Role() {
-    }
-
     public Role(final String string) {
-	this.role = string;
+        this.role = string;
     }
 }
