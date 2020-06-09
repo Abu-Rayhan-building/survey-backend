@@ -20,12 +20,12 @@ import io.quarkus.security.jpa.Username;
 public class User extends PanacheEntity {
 
     public static void add(final String username, final String pass,
-	    final Role role) {
-	final User user = new User();
-	user.name = username;
-	user.pass = BcryptUtil.bcryptHash(pass);
-	user.roles.add(role);
-	user.persist();
+                           final Role role) {
+        final User user = new User();
+        user.name = username;
+        user.pass = BcryptUtil.bcryptHash(pass);
+        user.roles.add(role);
+        user.persist();
     }
 
     @Username
@@ -36,6 +36,6 @@ public class User extends PanacheEntity {
 
     @ManyToMany
     @Roles
-    public List<Role> roles = new ArrayList();
+    public List<Role> roles = new ArrayList<>();
 
 }
