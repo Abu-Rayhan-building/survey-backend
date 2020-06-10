@@ -1,4 +1,4 @@
-# !/usr/bin/bash
+# !/bin/bash
  
 cd ../survey-frontend
 git fetch

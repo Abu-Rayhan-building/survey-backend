@@ -1,3 +1,3 @@
-# !/usr/bin/bash
+# !/bin/bash
 cd ..
 ./gradlew quarkusBuild --uber-jar 
