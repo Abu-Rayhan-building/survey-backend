@@ -31,3 +31,6 @@ nb-configuration.xml
 # Gradle
 .gradle/
 build/
+
+# client dist folder
+src/main/resources/META-INF/resources/
