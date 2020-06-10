@@ -3,8 +3,9 @@ cmd=$1
 
 cd ..
 version=$(./gradlew properties -q | grep "version:" | awk '{print $2}' | tr -d '[:space:]')
+cd scripts
 echo $version
-koft="./build/survey-backend-${version}-runner.jar"
+koft="../build/survey-backend-${version}-runner.jar"
 echo $koft
 
 runcmd="java -jar $koft >> ./koft.log &"
@@ -16,10 +17,16 @@ then
 elif [ "$cmd" == "stop" ]
 then
     kill $(cat /tmp/koftid)
-elif [ "$cmd" == "update" ]
+elif [ "$cmd" == "updateall" ]
 then
     kill $(cat /tmp/koftid)
     ./update-client.sh
+    ./create-uber-jar.sh
+    eval $runcmd
+    echo $! > /tmp/koftid
+elif [ "$cmd" == "update" ]
+then
+    kill $(cat /tmp/koftid)
     ./create-uber-jar.sh
     eval $runcmd
     echo $! > /tmp/koftid
