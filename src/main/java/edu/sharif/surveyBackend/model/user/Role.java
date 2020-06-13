@@ -2,6 +2,7 @@ package edu.sharif.surveyBackend.model.user;
 
 import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 
@@ -12,9 +13,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
 @Entity
 @NoArgsConstructor
+@Cacheable
 public class Role extends PanacheEntity {
     public static Role add(final String string) {
         final var role = new Role(string);
