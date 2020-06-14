@@ -11,7 +11,6 @@ import edu.sharif.surveyBackend.model.survey.question.Question;
 import edu.sharif.surveyBackend.model.university.Course;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import lombok.Data;
-import lombok.Getter;
 
 @Entity
 @Data

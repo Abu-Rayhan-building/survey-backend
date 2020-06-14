@@ -38,4 +38,8 @@ public class User extends PanacheEntity {
     @Roles
     public List<Role> roles = new ArrayList<>();
 
+    public static User findByUsername(String username) {
+	 return find("name", username).firstResult();
+    }
+
 }

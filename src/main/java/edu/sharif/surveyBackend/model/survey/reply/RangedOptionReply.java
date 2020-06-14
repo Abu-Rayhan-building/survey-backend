@@ -7,8 +7,10 @@ import javax.validation.constraints.Min;
 
 import edu.sharif.surveyBackend.model.survey.question.Question;
 import edu.sharif.surveyBackend.model.survey.question.RangedOptionQuestion;
+import lombok.Data;
 
 @Entity
+@Data
 public class RangedOptionReply extends Reply {
     @Max(value = 100)
     @Min(value = 0)

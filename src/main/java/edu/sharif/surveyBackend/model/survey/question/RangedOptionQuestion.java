@@ -7,5 +7,6 @@ import javax.validation.constraints.Min;
 @Entity
 public class RangedOptionQuestion extends Question {
 
-  
+  int min;
+  int max;
 }

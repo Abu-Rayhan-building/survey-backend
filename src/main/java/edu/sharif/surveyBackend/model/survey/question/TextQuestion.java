@@ -5,5 +5,5 @@ import javax.persistence.Entity;
 @Entity
 public class TextQuestion extends Question {
 
-    
+    int maxLength;
 }

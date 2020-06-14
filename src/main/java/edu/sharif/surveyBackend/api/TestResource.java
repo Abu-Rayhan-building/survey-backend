@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.ws.rs.ForbiddenException;
@@ -20,6 +21,7 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.jboss.resteasy.spi.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +40,10 @@ public class TestResource {
     private static final Logger log = LoggerFactory.getLogger("AuthResource");
     @Inject
     Validator validator;
+
+    @Context
+    HttpRequest request;
+    
     @Inject
     JsonWebToken jwt;
 
@@ -76,6 +82,10 @@ public class TestResource {
     @PermitAll
     @Produces(MediaType.TEXT_PLAIN)
     public String hello(@Context final SecurityContext ctx) {
+	var currentLocale = request.getRemoteAddress();
+
+	System.out.println(request.getRemoteHost());
+	System.out.println(currentLocale);
 	final Principal caller = ctx.getUserPrincipal();
 	final String name = caller == null ? "anonymous" : caller.getName();
 	final boolean hasJWT = this.jwt.getClaimNames() != null;

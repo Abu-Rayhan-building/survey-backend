@@ -12,6 +12,10 @@ public class MultiChoiceQuestion extends Question {
     @ElementCollection
     List<String> options;
 
+    int forcedNumber;
+
+    int availableNumber;
+
     public MultiChoiceQuestion addMultiChoiceQuestion(
 	    @Valid final MultiChoiceQuestion question) {
 	final var q = new MultiChoiceQuestion();

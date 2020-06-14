@@ -23,9 +23,6 @@ public class Role extends PanacheEntity {
         return role;
     }
 
-    @ManyToMany(mappedBy = "roles")
-    public List<User> users;
-
     @RolesValue
     public String role;
 

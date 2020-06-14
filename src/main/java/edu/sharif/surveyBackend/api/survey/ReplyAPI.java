@@ -24,7 +24,6 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import edu.sharif.surveyBackend.model.survey.question.Question;
 import edu.sharif.surveyBackend.model.survey.reply.Reply;
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,6 +50,26 @@ public class ReplyAPI {
 		    .build();
 	}
 
+    }
+
+    @PUT
+    @Path("{id}")
+    @Transactional
+    @RolesAllowed(value = { "admin" })
+    public Reply update(@PathParam(value = "id") final Long id,
+	    final Reply survey) {
+	
+
+	final Reply entity = Reply.findById(id);
+
+	if (entity == null) {
+	    throw new WebApplicationException(
+		    "Fruit with id of " + id + " does not exist.", 404);
+	}
+
+//	entity.setCourse(survey.getCourse());
+
+	return entity;
     }
 
     @POST
@@ -96,26 +115,4 @@ public class ReplyAPI {
 	return entity;
     }
 
-//    @PUT
-//    @Path("{id}")
-//    @Transactional
-//    @RolesAllowed(value = { "admin" })
-//    public Reply update(@PathParam(value = "id") final Long id,
-//	    final Reply reply) {
-//	if (reply.getCourse() == null) {
-//	    throw new WebApplicationException(
-//		    "Fruit Name was not set on request.", 422);
-//	}
-//
-//	final Question entity = Reply.findById(id);
-//
-//	if (entity == null) {
-//	    throw new WebApplicationException(
-//		    "Fruit with id of " + id + " does not exist.", 404);
-//	}
-//
-//	entity.setCourse(question.getCourse());
-//
-//	return entity;
-//    }
 }
