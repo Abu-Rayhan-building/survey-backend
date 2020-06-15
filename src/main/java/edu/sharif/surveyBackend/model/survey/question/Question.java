@@ -33,5 +33,7 @@ public abstract class Question extends PanacheEntity {
 	return PanacheEntityBase.find("name", name).firstResult();
     }
 
+    boolean shouldAnswer;
+    
     String text;
 }

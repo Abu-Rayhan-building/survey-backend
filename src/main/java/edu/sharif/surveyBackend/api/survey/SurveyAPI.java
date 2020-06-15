@@ -146,7 +146,7 @@ public class SurveyAPI {
     @Transactional
     @Consumes("application/json")
     @Produces("application/json")
-    @Path("/items/{id}/sunbmit")
+    @Path("/items/{id}/submit")
     public Response sunbmit(@Valid final SurveyResponse surveyResponse, @Context final SecurityContext sec) {
 	if (surveyResponse.id != null) {
 	    throw new WebApplicationException(
@@ -155,7 +155,7 @@ public class SurveyAPI {
 
 	final Principal user = sec.getUserPrincipal();
 	User u = User.findByUsername(user.getName());
-	SurveyMgr.oldSurveies(u, surveyResponse);
+	SurveyMgr.submit(u, surveyResponse);
 	
 	return Response.ok(surveyResponse).status(201).build();
     }
