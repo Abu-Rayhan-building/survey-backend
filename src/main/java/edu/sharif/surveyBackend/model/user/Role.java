@@ -1,14 +1,9 @@
 package edu.sharif.surveyBackend.model.user;
 
-import java.util.List;
-
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.security.jpa.RolesValue;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 

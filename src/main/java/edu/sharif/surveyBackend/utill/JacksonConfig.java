@@ -38,6 +38,10 @@ public class JacksonConfig implements ObjectMapperCustomizer {
 
 class PresentPropertyPolymorphicDeserializer<T> extends StdDeserializer<T> {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private final Map<String, Class<?>> propertyNameToType;
 
     public PresentPropertyPolymorphicDeserializer(Class<T> vc) {

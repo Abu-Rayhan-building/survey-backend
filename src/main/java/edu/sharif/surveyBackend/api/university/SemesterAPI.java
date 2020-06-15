@@ -28,7 +28,7 @@ import edu.sharif.surveyBackend.model.university.Semester;
 import lombok.extern.slf4j.Slf4j;
 
 @RequestScoped
-@Path("/semester")
+@Path("/api/semester")
 @Tag(name = "semester", description = "semester endpoint")
 @Slf4j
 public class SemesterAPI {
@@ -53,6 +53,7 @@ public class SemesterAPI {
     }
 
     @POST
+    @Path("/items")
     @Transactional
     @Consumes("application/json")
     @Produces("application/json")
@@ -68,7 +69,7 @@ public class SemesterAPI {
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/items/{id}")
     @Transactional
     @RolesAllowed(value = { "admin" })
     public Response delete(@PathParam(value = "id") final Long id) {
@@ -85,7 +86,7 @@ public class SemesterAPI {
     @APIResponse(description = "The greeting message", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     @Operation(description = "Will return a greeting message.", operationId = "helloendpoint_get")
     @GET
-    @Path("{id}")
+    @Path("/items/{id}")
     public Semester getSingle(@PathParam(value = "id") final Long id) {
 	final Semester entity = Semester.findById(id);
 	if (entity == null) {
@@ -96,7 +97,7 @@ public class SemesterAPI {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("/items/{id}")
     @Transactional
     @RolesAllowed(value = { "admin" })
     public Semester update(@PathParam(value = "id") final Long id,

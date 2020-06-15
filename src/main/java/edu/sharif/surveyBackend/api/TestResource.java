@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.ws.rs.ForbiddenException;
@@ -32,7 +31,7 @@ class CookieBuilder {
 
 }
 
-@Path("test")
+@Path("api/test")
 @Tag(name = "test", description = "test endpoint")
 @PermitAll
 public class TestResource {

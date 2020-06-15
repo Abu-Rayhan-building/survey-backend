@@ -1,25 +1,14 @@
 package edu.sharif.surveyBackend.model.survey.reply;
 
-import java.io.IOException;
-
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import edu.sharif.surveyBackend.model.survey.question.Question;
-import edu.sharif.surveyBackend.model.survey.question.RangedOptionQuestion;
 import edu.sharif.surveyBackend.model.user.User;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 

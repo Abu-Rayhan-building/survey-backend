@@ -10,9 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
-import edu.sharif.surveyBackend.model.survey.reply.MultiChoiceReply;
-import edu.sharif.surveyBackend.model.survey.reply.RangedOptionReply;
-import edu.sharif.surveyBackend.model.survey.reply.TextReply;
 import edu.sharif.surveyBackend.model.university.Course;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
@@ -35,9 +32,6 @@ public abstract class Question extends PanacheEntity {
     public static Question findByName(final String name) {
 	return PanacheEntityBase.find("name", name).firstResult();
     }
-
-    @ManyToOne
-    Course course;
 
     String text;
 }

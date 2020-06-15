@@ -27,7 +27,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import edu.sharif.surveyBackend.model.survey.question.Question;
 
 @RequestScoped
-@Path("/question")
+@Path("/api/question")
 @Tag(name = "question", description = "question endpoint")
 public class QuestionAPI {
 
@@ -50,7 +50,7 @@ public class QuestionAPI {
 
     }
     @PUT
-    @Path("{id}")
+    @Path("/items/{id}")
     @Transactional
     @RolesAllowed(value = { "admin" })
     public Question update(@PathParam(value = "id") final Long id,
@@ -70,6 +70,7 @@ public class QuestionAPI {
     }
 
     @POST
+    @Path("/items")
     @Transactional
     @Consumes("application/json")
     @Produces("application/json")
@@ -85,7 +86,7 @@ public class QuestionAPI {
     }
     
     @DELETE
-    @Path("{id}")
+    @Path("/items/{id}")
     @Transactional
     @RolesAllowed(value = { "admin" })
     public Response delete(@PathParam(value = "id") final Long id) {
@@ -102,7 +103,7 @@ public class QuestionAPI {
     @Operation(description = "Will return a greeting message.", operationId = "helloendpoint_get")
     @GET
     @Produces("application/json")
-    @Path("{id}")
+    @Path("/items/{id}")
     public Question getSingle(@PathParam(value = "id") final Long id) {
 	final Question entity = Question.findById(id);
 	if (entity == null) {

@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -31,13 +30,12 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import edu.sharif.surveyBackend.mgr.survey.SurveyMgr;
 import edu.sharif.surveyBackend.model.survey.Survey;
+import edu.sharif.surveyBackend.model.survey.SurveyResponse;
 import edu.sharif.surveyBackend.model.user.User;
-import lombok.extern.slf4j.Slf4j;
 
 @RequestScoped
-@Path("/survey")
+@Path("api/survey")
 @Tag(name = "survey", description = "survey endpoint")
-@Slf4j
 public class SurveyAPI {
 
     @Provider
@@ -64,6 +62,7 @@ public class SurveyAPI {
     @Consumes("application/json")
     @Produces("application/json")
     @RolesAllowed(value = { "admin" })
+    @Path("/items")
     public Response create(@Valid final Survey question) {
 	if (question.id != null) {
 	    throw new WebApplicationException(
@@ -75,7 +74,7 @@ public class SurveyAPI {
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/items/{id}")
     @Transactional
     @RolesAllowed(value = { "admin" })
     public Response delete(@PathParam(value = "id") final Long id) {
@@ -92,7 +91,7 @@ public class SurveyAPI {
     @APIResponse(description = "The greeting message", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     @Operation(description = "Will return a greeting message.", operationId = "helloendpoint_get")
     @GET
-    @Path("{id}")
+    @Path("/items/{id}")
     public Survey getSingle(@PathParam(value = "id") final Long id) {
 	final Survey entity = Survey.findById(id);
 	if (entity == null) {
@@ -103,7 +102,7 @@ public class SurveyAPI {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("/items/{id}")
     @Transactional
     @RolesAllowed(value = { "admin" })
     public Survey update(@PathParam(value = "id") final Long id,
@@ -132,6 +131,33 @@ public class SurveyAPI {
 	final Principal user = sec.getUserPrincipal();
 	User u = User.findByUsername(user.getName());
 	return SurveyMgr.availableSurveies(u);
+    }
+
+    @Produces("application/json")
+    @GET
+    @Path("/old")
+    public Survey[] oldSurvies(@Context final SecurityContext sec) {
+	final Principal user = sec.getUserPrincipal();
+	User u = User.findByUsername(user.getName());
+	return SurveyMgr.oldSurveies(u);
+    }
+
+    @POST
+    @Transactional
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/items/{id}/sunbmit")
+    public Response sunbmit(@Valid final SurveyResponse surveyResponse, @Context final SecurityContext sec) {
+	if (surveyResponse.id != null) {
+	    throw new WebApplicationException(
+		    "Id was invalidly set on request.", 422);
+	}
+
+	final Principal user = sec.getUserPrincipal();
+	User u = User.findByUsername(user.getName());
+	SurveyMgr.oldSurveies(u, surveyResponse);
+	
+	return Response.ok(surveyResponse).status(201).build();
     }
 
 }
