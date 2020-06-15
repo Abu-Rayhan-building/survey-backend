@@ -5,12 +5,15 @@ import edu.sharif.surveyBackend.model.survey.SurveyResponse;
 import edu.sharif.surveyBackend.model.user.User;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SurveyMgr {
 
     // TODO should return survies that user have access to and also has been started
@@ -22,7 +25,7 @@ public class SurveyMgr {
                 ":user in serv.course.students ";
         final Map<String, Object> params = new HashMap<>();
         params.put("user", user);
-        PanacheQuery<PanacheEntityBase> result = Survey.find(query, params);
+        PanacheQuery<PanacheEntityBase> result = PanacheEntityBase.find(query, params);
         return (Survey[]) result.stream().toArray();
     }
 
@@ -36,7 +39,7 @@ public class SurveyMgr {
         final Map<String, Object> params = new HashMap<>();
         params.put("current", new Date());
         params.put("user", user);
-        PanacheQuery<PanacheEntityBase> result = Survey.find(query, params);
+        PanacheQuery<PanacheEntityBase> result = PanacheEntityBase.find(query, params);
         return (Survey[]) result.stream().toArray();
     }
 
