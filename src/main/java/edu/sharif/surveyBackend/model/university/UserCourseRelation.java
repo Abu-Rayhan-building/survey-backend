@@ -2,8 +2,10 @@ package edu.sharif.surveyBackend.model.university;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+
+import edu.sharif.surveyBackend.model.user.User;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,10 +14,17 @@ import lombok.NoArgsConstructor;
 @Cacheable
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Semester extends PanacheEntity {
+public class UserCourseRelation extends PanacheEntity {
 
-    String name;
+    public UserCourseRelation(User u, RoleInCourse roleInCourse) {
+	this.user = u;
+	this.roleInCourse = roleInCourse;
+    }
 
+    @ManyToOne
+    RoleInCourse roleInCourse;
+
+    @ManyToOne
+    User user;
 }

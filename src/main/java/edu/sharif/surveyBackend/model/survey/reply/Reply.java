@@ -22,9 +22,9 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 public abstract class Reply extends PanacheEntity {
 
     @ManyToOne
-    User responder;
+    public User responder;
     @ManyToOne
-    Question question;
+    public Question question;
 
 }
 

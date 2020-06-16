@@ -5,6 +5,6 @@ import javax.persistence.Entity;
 @Entity
 public class RangedOptionQuestion extends Question {
 
-  int min;
-  int max;
+  public int min;
+  public int max;
 }

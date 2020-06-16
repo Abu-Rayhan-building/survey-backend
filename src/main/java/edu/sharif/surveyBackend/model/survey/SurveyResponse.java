@@ -1,5 +1,6 @@
 package edu.sharif.surveyBackend.model.survey;
 
+import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -24,8 +25,9 @@ public class SurveyResponse extends PanacheEntity {
     Survey survey;
 
     @ManyToMany
+    public
     List<Reply> replys;
 
-    Date sunmitTime;
+    OffsetDateTime submitTime;
 
 }

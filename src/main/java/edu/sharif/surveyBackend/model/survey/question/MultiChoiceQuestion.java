@@ -12,13 +12,17 @@ public class MultiChoiceQuestion extends Question {
     @ElementCollection
     List<String> options;
 
-    int forcedNumber;
+    public int minimunNumber;
 
-    int availableNumber;
+    public int maximumNumber;
 
-    public MultiChoiceQuestion addMultiChoiceQuestion(
-	    @Valid final MultiChoiceQuestion question) {
+    public static MultiChoiceQuestion addMultiChoiceQuestion(
+	    List<String> options, int min, int max) {
 	final var q = new MultiChoiceQuestion();
+	// TODO is this true? or should we copy the content?
+	q.options = options;
+	q.minimunNumber = min;
+	q.maximumNumber = max;
 	q.persist();
 	return q;
     }
