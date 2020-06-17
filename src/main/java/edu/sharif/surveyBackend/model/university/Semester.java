@@ -1,23 +1,21 @@
-package edu.sharif.surveyBackend.model.user;
+package edu.sharif.surveyBackend.model.university;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import io.quarkus.security.jpa.RolesValue;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @EqualsAndHashCode(callSuper = true)
-@Entity
-@NoArgsConstructor
 @Cacheable
-public class Role extends PanacheEntity {
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Semester extends PanacheEntity {
 
+    String name;
 
-    @RolesValue
-    public String role;
-
-    public Role(final String string) {
-        this.role = string;
-    }
 }

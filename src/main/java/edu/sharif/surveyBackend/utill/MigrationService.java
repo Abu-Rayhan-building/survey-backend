@@ -17,6 +17,7 @@ public class MigrationService {
 //        flyway.migrate();
  
 	// This will print 1.0.0
+	System.out.println("ffffffffffffffffffffn\n\n\n\nffffffffff\n\n");
 	System.out.println(flyway.info().current().getVersion().toString());
     }
 }
