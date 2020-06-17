@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.ws.rs.BadRequestException;
 
+import edu.sharif.surveyBackend.mgr.survey.question.QuestionMgr;
 import edu.sharif.surveyBackend.model.survey.Survey;
 import edu.sharif.surveyBackend.model.survey.SurveyResponse;
 import edu.sharif.surveyBackend.model.survey.question.MultiChoiceQuestion;
@@ -22,7 +23,6 @@ import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SurveyMgr {
 
     public static Survey[] availableSurveies(final User user) {

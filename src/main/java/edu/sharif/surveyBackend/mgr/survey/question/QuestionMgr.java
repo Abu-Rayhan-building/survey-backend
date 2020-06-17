@@ -1,4 +1,6 @@
-package edu.sharif.surveyBackend.mgr.survey;
+package edu.sharif.surveyBackend.mgr.survey.question;
+
+import java.util.List;
 
 import edu.sharif.surveyBackend.model.survey.question.MultiChoiceQuestion;
 import edu.sharif.surveyBackend.model.survey.question.Question;
@@ -8,11 +10,17 @@ import edu.sharif.surveyBackend.model.survey.reply.MultiChoiceReply;
 import edu.sharif.surveyBackend.model.survey.reply.RangedOptionReply;
 import edu.sharif.surveyBackend.model.survey.reply.Reply;
 import edu.sharif.surveyBackend.model.survey.reply.TextReply;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class QuestionMgr {
+    public static Question findByName(final String name) {
+	return PanacheEntityBase.find("name", name).firstResult();
+    }
+
+
 
     // TODO not all cases are considered
     public static boolean isReplyValid(final Question q, final Reply r) {

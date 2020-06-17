@@ -8,7 +8,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class LoggingFilter
+public class RequestFilter
         implements ContainerRequestFilter {
 
     @Context

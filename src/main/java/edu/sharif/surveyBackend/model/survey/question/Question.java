@@ -34,10 +34,6 @@ import lombok.Setter;
 	@Type(name = "min", value = RangedOptionQuestion.class) })
 public abstract class Question extends PanacheEntity {
 
-    public static Question findByName(final String name) {
-	return PanacheEntityBase.find("name", name).firstResult();
-    }
-
     boolean shouldAnswer;
 
     String text;

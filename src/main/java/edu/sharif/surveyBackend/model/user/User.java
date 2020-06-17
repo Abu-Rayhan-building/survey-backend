@@ -21,21 +21,15 @@ import io.quarkus.security.jpa.Username;
 @Table(name = "usertable")
 public class User extends PanacheEntity {
 
-    public static User add(final String username, final String pass,
-	    final Role role) {
-	final User user = new User();
-	user.name = username;
-	user.pass = BcryptUtil.bcryptHash(pass);
-	user.roles.add(role);
-	user.persist();
-	return user;
-    }
-
     @Username
     public String name;
 
     @Email
     public String email;
+
+    public int studentId;
+
+    public long nationalId;
 
     OffsetDateTime signupDate;
 
@@ -45,9 +39,5 @@ public class User extends PanacheEntity {
     @ManyToMany
     @Roles
     public List<Role> roles = new ArrayList<>();
-
-    public static User findByUsername(String username) {
-	return find("name", username).firstResult();
-    }
 
 }

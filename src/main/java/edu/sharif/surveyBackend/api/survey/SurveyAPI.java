@@ -29,6 +29,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import edu.sharif.surveyBackend.mgr.survey.SurveyMgr;
+import edu.sharif.surveyBackend.mgr.user.UserMgr;
 import edu.sharif.surveyBackend.model.survey.Survey;
 import edu.sharif.surveyBackend.model.survey.SurveyResponse;
 import edu.sharif.surveyBackend.model.user.User;
@@ -129,7 +130,7 @@ public class SurveyAPI {
     @Path("/available")
     public Survey[] availableSurvies(@Context final SecurityContext sec) {
 	final Principal user = sec.getUserPrincipal();
-	User u = User.findByUsername(user.getName());
+	User u = UserMgr.findByUsername(user.getName());
 	return SurveyMgr.availableSurveies(u);
     }
 
@@ -138,7 +139,7 @@ public class SurveyAPI {
     @Path("/old")
     public Survey[] oldSurvies(@Context final SecurityContext sec) {
 	final Principal user = sec.getUserPrincipal();
-	User u = User.findByUsername(user.getName());
+	User u = UserMgr.findByUsername(user.getName());
 	return SurveyMgr.oldSurveies(u);
     }
 
@@ -154,7 +155,7 @@ public class SurveyAPI {
 	}
 
 	final Principal user = sec.getUserPrincipal();
-	User u = User.findByUsername(user.getName());
+	User u = UserMgr.findByUsername(user.getName());
 	SurveyMgr.submit(u, surveyResponse);
 	
 	return Response.ok(surveyResponse).status(201).build();

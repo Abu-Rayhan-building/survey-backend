@@ -11,8 +11,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class RangedOptionReply extends Reply {
-    @Max(value = 100)
-    @Min(value = 0)
     int value;
 
 //    @ManyToOne

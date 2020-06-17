@@ -12,11 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Cacheable
 public class Role extends PanacheEntity {
-    public static Role add(final String string) {
-        final var role = new Role(string);
-        role.persist();
-        return role;
-    }
+
 
     @RolesValue
     public String role;

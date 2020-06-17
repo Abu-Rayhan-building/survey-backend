@@ -11,6 +11,9 @@ import javax.transaction.Transactional;
 
 import io.quarkus.runtime.StartupEvent;
 import edu.sharif.surveyBackend.mgr.survey.SurveyMgr;
+import edu.sharif.surveyBackend.mgr.survey.question.MultiChoiceQuestionMgr;
+import edu.sharif.surveyBackend.mgr.user.RoleMgr;
+import edu.sharif.surveyBackend.mgr.user.UserMgr;
 import edu.sharif.surveyBackend.model.survey.Survey;
 import edu.sharif.surveyBackend.model.survey.question.MultiChoiceQuestion;
 import edu.sharif.surveyBackend.model.university.Course;
@@ -26,12 +29,12 @@ public class DevStartup {
     public void loadUsers(@Observes StartupEvent evt) {
 	// reset and load all test users
 	Role.deleteAll();
-	var roleAdmin = Role.add("admin");
-	var roleuser = Role.add("user");
+	var roleAdmin = RoleMgr.add("admin");
+	var roleuser = RoleMgr.add("user");
 
 	User.deleteAll();
-	User.add("admin", "admin", roleAdmin);
-	User u = User.add("user", "user", roleuser);
+	UserMgr.add("admin", "admin", List.of(roleAdmin));
+	User u = UserMgr.add("user", "user", List.of(roleuser));
 
 	var sem = new Semester("98-2");
 	Semester.persist(sem);
@@ -40,8 +43,8 @@ public class DevStartup {
 	Course.persist(course);
 
 	List<String> options = List.of("گزینه ی یک", "گزینه ی دو");
-	var mcquestion = MultiChoiceQuestion.addMultiChoiceQuestion(options, 1,
-		1);
+	var mcquestion = MultiChoiceQuestionMgr.addMultiChoiceQuestion(options,
+		1, 1);
 
 	mcquestion.persist();
 
