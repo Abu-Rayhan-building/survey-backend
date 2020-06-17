@@ -7,10 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.BadRequestException;
 
+import edu.sharif.surveyBackend.mgr.survey.question.MultiChoiceQuestionMgr;
 import edu.sharif.surveyBackend.mgr.survey.question.QuestionMgr;
+import edu.sharif.surveyBackend.mgr.university.DepartmentMgr;
+import edu.sharif.surveyBackend.mgr.university.UniversityMgr;
 import edu.sharif.surveyBackend.model.survey.Survey;
 import edu.sharif.surveyBackend.model.survey.SurveyResponse;
 import edu.sharif.surveyBackend.model.survey.question.Question;
@@ -19,20 +23,31 @@ import edu.sharif.surveyBackend.model.university.Course;
 import edu.sharif.surveyBackend.model.university.UserCourseRelation;
 import edu.sharif.surveyBackend.model.user.User;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
-public class SurveyMgr {
+public class SurveyMgr implements PanacheRepository<Survey> {
+    @Inject
+    UniversityMgr universityMgr;
+    @Inject
+    DepartmentMgr departmentMgr;
 
-    public static Survey[] availableSurveies(final User user) {
+    @Inject
+    MultiChoiceQuestionMgr multiChoiceQuestionMgr;
+
+    @Inject
+    QuestionMgr questionMgr;
+
+    public Survey[] availableSurveies(final User user) {
 	// language=HQL
 	final String query = "SELECT serv FROM Survey AS serv WHERE serv.begging!=null AND "
 		+ "serv.endTime=null AND" + ":user in serv.course.students ";
 	final Map<String, Object> params = new HashMap<>();
 	params.put("user", user);
-	final PanacheQuery<Survey> result = Survey.find(query, params);
+	PanacheQuery<Survey> result = find(query, params);
 	return result.stream().toArray(Survey[]::new);
     }
 
-    private static boolean hasAccess(final User u, final Survey survey) {
+    private boolean hasAccess(final User u, final Survey survey) {
 	final String query = "SELECT ucr FROM UserCourseRelation AS ucr WHERE serv.course = :current ";
 	final Map<String, Object> params = new HashMap<>();
 	params.put("current", survey.getCourse());
@@ -57,7 +72,7 @@ public class SurveyMgr {
 
     }
 
-    public static boolean isValidResponse(final Survey survey,
+    public boolean isValidResponse(final Survey survey,
 	    @Valid final SurveyResponse surveyResponse) {
 	if (survey.getQuestions().size() != surveyResponse.replys.size()) {
 	    return false;
@@ -69,7 +84,7 @@ public class SurveyMgr {
 	while (itq.hasNext() && itr.hasNext()) {
 	    final Question q = itq.next();
 	    final Reply r = itr.next();
-	    if (!QuestionMgr.isReplyValid(q, r)) {
+	    if (!questionMgr.isReplyValid(q, r)) {
 		return false;
 	    }
 
@@ -77,7 +92,7 @@ public class SurveyMgr {
 	return true;
     }
 
-    public static Survey newSurvey(final String name, final Course course,
+    public Survey newSurvey(final String name, final Course course,
 	    final OffsetDateTime begining, final OffsetDateTime endDate,
 	    final List<Question> questions) {
 	final var survey = new Survey(name, course, begining, endDate,
@@ -86,23 +101,23 @@ public class SurveyMgr {
 	return survey;
     }
 
-    public static Survey[] oldSurveies(final User user) {
+    public Survey[] oldSurveies(final User user) {
 	// language=HQL
 	final String query = "SELECT serv FROM Survey AS serv WHERE serv.endTime< :current AND "
 		+ ":user in serv.course.students ";
-	final Map<String, Object> params = new HashMap<>();
+	Map<String, Object> params = new HashMap<>();
 	params.put("current", new Date());
 	params.put("user", user);
-	final PanacheQuery<Survey> result = Survey.find(query, params);
+	PanacheQuery<Survey> result = find(query, params);
 	return result.stream().toArray(Survey[]::new);
     }
 
-    public static void submit(final User u,
+    public void submit(final User u,
 	    @Valid final SurveyResponse surveyResponse) {
-	final Survey survey = Survey.findById(surveyResponse.getSurvey().id);
+	final Survey survey = findById(surveyResponse.getSurvey().id);
 
-	if (SurveyMgr.hasAccess(u, survey)
-		&& SurveyMgr.isValidResponse(survey, surveyResponse)) {
+	if (this.hasAccess(u, survey)
+		&& this.isValidResponse(survey, surveyResponse)) {
 	    surveyResponse.persist();
 	} else {
 	    throw new BadRequestException("question type mismatch ");

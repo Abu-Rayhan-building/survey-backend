@@ -1,12 +1,9 @@
 package edu.sharif.surveyBackend.mgr.user;
 
-import java.util.List;
-
 import edu.sharif.surveyBackend.model.user.Role;
-import edu.sharif.surveyBackend.model.user.User;
-import io.quarkus.elytron.security.common.BcryptUtil;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
-public class RoleMgr {
+public class RoleMgr implements PanacheRepository<Role> {
 
     public static Role add(final String string) {
 	final var role = new Role(string);

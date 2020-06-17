@@ -5,8 +5,9 @@ import java.util.List;
 import edu.sharif.surveyBackend.model.user.Role;
 import edu.sharif.surveyBackend.model.user.User;
 import io.quarkus.elytron.security.common.BcryptUtil;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
-public class UserMgr {
+public class UserMgr implements PanacheRepository<User> {
     public static User add(final String username, final String pass,
 	    final List<Role> roles) {
 	final User user = new User();

@@ -1,32 +1,33 @@
 package edu.sharif.surveyBackend.mgr.university;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import edu.sharif.surveyBackend.model.university.Department;
 import edu.sharif.surveyBackend.model.university.University;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
-public class DepartmentMgr {
+public class DepartmentMgr implements PanacheRepository<Department> {
 
-    public static Department newDepartment(String name, University uni) {
+    public Department deleteDepartment(final long id) {
+	final Department dep = findById(id);
+	deleteById(id);
+	return dep;
+    }
+
+    public Department getDepartmentByName(final String name) {
+	final String query = "select dep from Department AS dep where dep.name = :name";
+	final Map<String, Object> params = new HashMap<>();
+	params.put("name", name);
+	PanacheQuery<Department> dep = find(query,
+		params);
+	return dep.firstResult();
+    }
+
+    public Department newDepartment(final String name, final University uni) {
 	var dep = new Department(name, uni);
 	dep.persist();
 	return dep;
-    }
-
-    public static Department deleteDepartment(int id) {
-	Department dep = Department.findById(id);
-	Department.deleteById(id);
-	return dep;
-    }
-
-    public static Department getDepartmentByName(String name) {
-	String query = "select dep from Department AS dep where dep.name = :name";
-	final Map<String, Object> params = new HashMap<>();
-	params.put("name", name);
-	PanacheQuery<Department> dep = Department.find(query, params);
-	return dep.firstResult();
     }
 }
