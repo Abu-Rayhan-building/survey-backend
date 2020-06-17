@@ -13,7 +13,6 @@ public class addCourse implements QuarkusApplication {
 
     @Override
     public int run(String... args) throws Exception {
-	// TODO Auto-generated method stub
 	return 0;
     }
 

@@ -9,7 +9,6 @@ import io.quarkus.runtime.annotations.QuarkusMain;
 public class Main {
 
     public static void main(String[] args) {
-	// TODO Auto-generated method stub
 	Quarkus.run(Test.class, args);
 	Quarkus.waitForExit();
 
