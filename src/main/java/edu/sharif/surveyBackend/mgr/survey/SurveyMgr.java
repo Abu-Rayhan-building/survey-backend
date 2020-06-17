@@ -13,15 +13,12 @@ import javax.ws.rs.BadRequestException;
 import edu.sharif.surveyBackend.mgr.survey.question.QuestionMgr;
 import edu.sharif.surveyBackend.model.survey.Survey;
 import edu.sharif.surveyBackend.model.survey.SurveyResponse;
-import edu.sharif.surveyBackend.model.survey.question.MultiChoiceQuestion;
 import edu.sharif.surveyBackend.model.survey.question.Question;
 import edu.sharif.surveyBackend.model.survey.reply.Reply;
 import edu.sharif.surveyBackend.model.university.Course;
 import edu.sharif.surveyBackend.model.university.UserCourseRelation;
 import edu.sharif.surveyBackend.model.user.User;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 public class SurveyMgr {
 
@@ -41,20 +38,52 @@ public class SurveyMgr {
 	params.put("current", survey.getCourse());
 	final PanacheQuery<UserCourseRelation> result = UserCourseRelation
 		.find(query, params);
-	var roles = result.stream().filter(ucr -> {
-	    if (((UserCourseRelation) ucr).getUser().equals(u))
+	final var roles = result.stream().filter(ucr -> {
+	    if (ucr.getUser().equals(u)) {
 		return true;
+	    }
 	    return false;
 	}).collect(Collectors.toList());
-	boolean[] flag = { false };
+	final boolean[] flag = { false };
 
 	roles.forEach(role -> {
-	    if (survey.getTargetCourseRoles().contains(role))
+	    if (survey.getTargetCourseRoles()
+		    .contains(role.getRoleInCourse())) {
 		flag[0] = true;
+	    }
 	});
 
 	return flag[0];
 
+    }
+
+    public static boolean isValidResponse(final Survey survey,
+	    @Valid final SurveyResponse surveyResponse) {
+	if (survey.getQuestions().size() != surveyResponse.replys.size()) {
+	    return false;
+	}
+
+	final var itq = survey.getQuestions().iterator();
+	final var itr = surveyResponse.getReplys().iterator();
+
+	while (itq.hasNext() && itr.hasNext()) {
+	    final Question q = itq.next();
+	    final Reply r = itr.next();
+	    if (!QuestionMgr.isReplyValid(q, r)) {
+		return false;
+	    }
+
+	}
+	return true;
+    }
+
+    public static Survey newSurvey(final String name, final Course course,
+	    final OffsetDateTime begining, final OffsetDateTime endDate,
+	    final List<Question> questions) {
+	final var survey = new Survey(name, course, begining, endDate,
+		questions);
+	survey.persist();
+	return survey;
     }
 
     public static Survey[] oldSurveies(final User user) {
@@ -73,37 +102,11 @@ public class SurveyMgr {
 	final Survey survey = Survey.findById(surveyResponse.getSurvey().id);
 
 	if (SurveyMgr.hasAccess(u, survey)
-		&& isValidResponse(survey, surveyResponse)) {
+		&& SurveyMgr.isValidResponse(survey, surveyResponse)) {
 	    surveyResponse.persist();
 	} else {
 	    throw new BadRequestException("question type mismatch ");
 	}
 
-    }
-
-    public static boolean isValidResponse(Survey survey,
-	    @Valid SurveyResponse surveyResponse) {
-	if (survey.getQuestions().size() != surveyResponse.replys.size())
-	    return false;
-
-	var itq = survey.getQuestions().iterator();
-	var itr = surveyResponse.getReplys().iterator();
-
-	while (itq.hasNext() && itr.hasNext()) {
-	    Question q = itq.next();
-	    Reply r = itr.next();
-	    if (!QuestionMgr.isReplyValid(q, r))
-		return false;
-
-	}
-	return true;
-    }
-
-    public static Survey newSurvey(String name, Course course,
-	    OffsetDateTime begining, OffsetDateTime endDate,
-	    List<Question> questions) {
-	var survey = new Survey(name, course, begining, endDate, questions);
-	survey.persist();
-	return survey;
     }
 }

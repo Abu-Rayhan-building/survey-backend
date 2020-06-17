@@ -1,11 +1,9 @@
 package edu.sharif.surveyBackend.model.university;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
@@ -18,24 +16,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class Course extends PanacheEntity {
+public class University extends PanacheEntity {
 
     String name;
 
-    @ManyToOne
-    Semester semester;
-
-    @ManyToOne
-    Department department;
-
     @OneToMany
-    List<UserCourseRelation> users;
+    List<Department> departments;
 
-    public Course(final String name, Department dep, final Semester semester) {
+    public University(final String name) {
 	this.name = name;
-	this.department = dep;
-	this.semester = semester;
-	this.users = new ArrayList<>();
     }
-
 }
