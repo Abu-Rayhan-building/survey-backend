@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.json.Json;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -29,6 +30,10 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import edu.sharif.surveyBackend.mgr.survey.SurveyMgr;
+import edu.sharif.surveyBackend.mgr.survey.question.MultiChoiceQuestionMgr;
+import edu.sharif.surveyBackend.mgr.survey.question.QuestionMgr;
+import edu.sharif.surveyBackend.mgr.university.DepartmentMgr;
+import edu.sharif.surveyBackend.mgr.university.UniversityMgr;
 import edu.sharif.surveyBackend.mgr.user.UserMgr;
 import edu.sharif.surveyBackend.model.survey.Survey;
 import edu.sharif.surveyBackend.model.survey.SurveyResponse;
@@ -39,6 +44,18 @@ import edu.sharif.surveyBackend.model.user.User;
 @Tag(name = "survey", description = "survey endpoint")
 public class SurveyAPI {
 
+    @Inject
+    UniversityMgr universityMgr;
+    @Inject
+    DepartmentMgr departmentMgr;
+
+    @Inject
+    MultiChoiceQuestionMgr multiChoiceQuestionMgr;
+    @Inject
+    SurveyMgr surveyMgr;
+    @Inject
+    QuestionMgr questionMgr;
+    
     @Provider
     public static class ErrorMapper implements ExceptionMapper<Exception> {
 
@@ -131,7 +148,7 @@ public class SurveyAPI {
     public Survey[] availableSurvies(@Context final SecurityContext sec) {
 	final Principal user = sec.getUserPrincipal();
 	User u = UserMgr.findByUsername(user.getName());
-	return SurveyMgr.availableSurveies(u);
+	return surveyMgr.availableSurveies(u);
     }
 
     @Produces("application/json")
@@ -140,7 +157,7 @@ public class SurveyAPI {
     public Survey[] oldSurvies(@Context final SecurityContext sec) {
 	final Principal user = sec.getUserPrincipal();
 	User u = UserMgr.findByUsername(user.getName());
-	return SurveyMgr.oldSurveies(u);
+	return surveyMgr.oldSurveies(u);
     }
 
     @POST
@@ -156,7 +173,7 @@ public class SurveyAPI {
 
 	final Principal user = sec.getUserPrincipal();
 	User u = UserMgr.findByUsername(user.getName());
-	SurveyMgr.submit(u, surveyResponse);
+	surveyMgr.submit(u, surveyResponse);
 	
 	return Response.ok(surveyResponse).status(201).build();
     }

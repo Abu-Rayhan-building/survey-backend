@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.validation.Valid;
 
+import lombok.Data;
+
+@Data
 @Entity
 public class MultiChoiceQuestion extends Question {
 
