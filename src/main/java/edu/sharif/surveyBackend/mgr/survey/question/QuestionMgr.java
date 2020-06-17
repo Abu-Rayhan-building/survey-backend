@@ -10,14 +10,13 @@ import edu.sharif.surveyBackend.model.survey.reply.MultiChoiceReply;
 import edu.sharif.surveyBackend.model.survey.reply.RangedOptionReply;
 import edu.sharif.surveyBackend.model.survey.reply.Reply;
 import edu.sharif.surveyBackend.model.survey.reply.TextReply;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class QuestionMgr {
     public static Question findByName(final String name) {
-	return PanacheEntityBase.find("name", name).firstResult();
+	return Question.find("name", name).firstResult();
     }
 
 

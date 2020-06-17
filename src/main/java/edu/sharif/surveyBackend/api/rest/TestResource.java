@@ -1,4 +1,4 @@
-package edu.sharif.surveyBackend.api;
+package edu.sharif.surveyBackend.api.rest;
 
 import java.security.Principal;
 import java.util.Set;

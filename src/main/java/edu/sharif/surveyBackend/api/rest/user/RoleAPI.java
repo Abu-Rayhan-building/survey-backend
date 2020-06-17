@@ -1,4 +1,4 @@
-package edu.sharif.surveyBackend.api.user;
+package edu.sharif.surveyBackend.api.rest.user;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;

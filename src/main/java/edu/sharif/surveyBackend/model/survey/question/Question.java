@@ -4,20 +4,12 @@ import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
-import javax.ws.rs.BadRequestException;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
-import edu.sharif.surveyBackend.model.survey.reply.MultiChoiceReply;
-import edu.sharif.surveyBackend.model.survey.reply.RangedOptionReply;
-import edu.sharif.surveyBackend.model.survey.reply.Reply;
-import edu.sharif.surveyBackend.model.survey.reply.TextReply;
-import edu.sharif.surveyBackend.model.university.Course;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +29,5 @@ public abstract class Question extends PanacheEntity {
     boolean shouldAnswer;
 
     String text;
-
 
 }

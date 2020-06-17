@@ -1,4 +1,4 @@
-package edu.sharif.surveyBackend.api.university;
+package edu.sharif.surveyBackend.api.rest.university;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
@@ -24,14 +24,14 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import edu.sharif.surveyBackend.model.university.Semester;
+import edu.sharif.surveyBackend.model.university.Course;
 import lombok.extern.slf4j.Slf4j;
 
 @RequestScoped
-@Path("/api/semester")
-@Tag(name = "semester", description = "semester endpoint")
+@Path("/api/course")
+@Tag(name = "course", description = "course endpoint")
 @Slf4j
-public class SemesterAPI {
+public class CourseAPI {
 
     @Provider
     public static class ErrorMapper implements ExceptionMapper<Exception> {
@@ -58,7 +58,7 @@ public class SemesterAPI {
     @Consumes("application/json")
     @Produces("application/json")
     @RolesAllowed(value = { "admin" })
-    public Response create(@Valid final Semester question) {
+    public Response create(@Valid final Course question) {
 	if (question.id != null) {
 	    throw new WebApplicationException(
 		    "Id was invalidly set on request.", 422);
@@ -73,7 +73,7 @@ public class SemesterAPI {
     @Transactional
     @RolesAllowed(value = { "admin" })
     public Response delete(@PathParam(value = "id") final Long id) {
-	final Semester entity = Semester.findById(id);
+	final Course entity = Course.findById(id);
 	if (entity == null) {
 	    throw new WebApplicationException(
 		    "Fruit with id of " + id + " does not exist.", 404);
@@ -87,8 +87,8 @@ public class SemesterAPI {
     @Operation(description = "Will return a greeting message.", operationId = "helloendpoint_get")
     @GET
     @Path("/items/{id}")
-    public Semester getSingle(@PathParam(value = "id") final Long id) {
-	final Semester entity = Semester.findById(id);
+    public Course getSingle(@PathParam(value = "id") final Long id) {
+	final Course entity = Course.findById(id);
 	if (entity == null) {
 	    throw new WebApplicationException(
 		    " Reply with id of " + id + " does not exist.", 404);
@@ -100,14 +100,14 @@ public class SemesterAPI {
     @Path("/items/{id}")
     @Transactional
     @RolesAllowed(value = { "admin" })
-    public Semester update(@PathParam(value = "id") final Long id,
-	    final Semester survey) {
+    public Course update(@PathParam(value = "id") final Long id,
+	    final Course survey) {
 	if (survey.getName() == null) {
 	    throw new WebApplicationException(
 		    "Fruit Name was not set on request.", 422);
 	}
 
-	final Semester entity = Semester.findById(id);
+	final Course entity = Course.findById(id);
 
 	if (entity == null) {
 	    throw new WebApplicationException(

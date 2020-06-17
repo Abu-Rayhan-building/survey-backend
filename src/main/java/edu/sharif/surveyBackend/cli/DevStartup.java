@@ -12,6 +12,8 @@ import javax.transaction.Transactional;
 import io.quarkus.runtime.StartupEvent;
 import edu.sharif.surveyBackend.mgr.survey.SurveyMgr;
 import edu.sharif.surveyBackend.mgr.survey.question.MultiChoiceQuestionMgr;
+import edu.sharif.surveyBackend.mgr.university.DepartmentMgr;
+import edu.sharif.surveyBackend.mgr.university.UniversityMgr;
 import edu.sharif.surveyBackend.mgr.user.RoleMgr;
 import edu.sharif.surveyBackend.mgr.user.UserMgr;
 import edu.sharif.surveyBackend.model.survey.Survey;
@@ -19,6 +21,7 @@ import edu.sharif.surveyBackend.model.survey.question.MultiChoiceQuestion;
 import edu.sharif.surveyBackend.model.university.Course;
 import edu.sharif.surveyBackend.model.university.RoleInCourse;
 import edu.sharif.surveyBackend.model.university.Semester;
+import edu.sharif.surveyBackend.model.university.University;
 import edu.sharif.surveyBackend.model.university.UserCourseRelation;
 import edu.sharif.surveyBackend.model.user.Role;
 import edu.sharif.surveyBackend.model.user.User;
@@ -36,10 +39,13 @@ public class DevStartup {
 	UserMgr.add("admin", "admin", List.of(roleAdmin));
 	User u = UserMgr.add("user", "user", List.of(roleuser));
 
+	var uni = UniversityMgr.newUniversity("sharif");
+	var dep = DepartmentMgr.newDepartment("math", uni);
+
 	var sem = new Semester("98-2");
 	Semester.persist(sem);
 
-	var course = new Course("algorithm", sem);
+	var course = new Course("algorithm", dep, sem);
 	Course.persist(course);
 
 	List<String> options = List.of("گزینه ی یک", "گزینه ی دو");
