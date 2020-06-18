@@ -1,8 +1,13 @@
 package edu.sharif.surveyBackend.api.rest.university;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.json.Json;
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -13,12 +18,14 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.hibernate.search.mapper.orm.Search;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
@@ -33,6 +40,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CourseAPI {
 
+    @Inject
+    EntityManager em;
+    
     @Provider
     public static class ErrorMapper implements ExceptionMapper<Exception> {
 
@@ -118,5 +128,20 @@ public class CourseAPI {
 
 	return entity;
     }
-
+    @GET
+    @Path("author/search") 
+    @Transactional
+    public List<Course> searchAuthors(@QueryParam(value = "") String pattern, 
+            @QueryParam(value = "") Optional<Integer> size) {
+        return Search.session(em) 
+                .search(Course.class) 
+                .where(f ->
+                    pattern == null || pattern.trim().isEmpty() ?
+                            f.matchAll() : 
+                            f.simpleQueryString()
+                                .fields("firstName", "lastName", "books.title").matching(pattern) 
+                )
+                .sort(f -> f.field("lastName_sort").then().field("firstName_sort")) 
+                .fetchHits(size.orElse(20)); 
+    }
 }
