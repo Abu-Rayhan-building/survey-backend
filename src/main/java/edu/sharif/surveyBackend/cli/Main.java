@@ -5,7 +5,7 @@ import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 
 // wtf? this doesn't work
-//@QuarkusMain
+//@QuarkusMain(name = "")
 public class Main {
 
     public static void main(String[] args) {
@@ -16,6 +16,7 @@ public class Main {
 
 }
 
+@QuarkusMain(name = "wtf")
 class Test implements QuarkusApplication {
     @Override
     public int run(String... args) throws Exception {

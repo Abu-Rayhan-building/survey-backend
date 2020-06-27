@@ -11,6 +11,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.quarkus:quarkus-kubernetes'
     implementation 'io.quarkus:quarkus-mailer'
     implementation 'io.quarkus:quarkus-smallrye-health'
     //implementation 'io.quarkus:quarkus-hibernate-search-elasticsearch'

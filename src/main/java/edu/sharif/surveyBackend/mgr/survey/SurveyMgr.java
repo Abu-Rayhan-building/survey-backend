@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.BadRequestException;
@@ -25,6 +26,7 @@ import edu.sharif.surveyBackend.model.user.User;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
+@ApplicationScoped
 public class SurveyMgr implements PanacheRepository<Survey> {
     @Inject
     UniversityMgr universityMgr;

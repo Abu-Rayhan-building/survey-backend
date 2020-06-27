@@ -1,5 +1,7 @@
 package edu.sharif.surveyBackend.mgr.survey.question;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import edu.sharif.surveyBackend.model.survey.question.MultiChoiceQuestion;
 import edu.sharif.surveyBackend.model.survey.question.Question;
 import edu.sharif.surveyBackend.model.survey.question.RangedOptionQuestion;
@@ -12,8 +14,10 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@ApplicationScoped
+@NoArgsConstructor
 public class QuestionMgr implements PanacheRepository<Question> {
+    
     public Question findByName(final String name) {
 	return find("name", name).firstResult();
     }
