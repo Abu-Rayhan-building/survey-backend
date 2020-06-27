@@ -10,10 +10,14 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+
+import io.quarkus.security.Authenticated;
+
 import javax.websocket.Session;
 
 @ServerEndpoint("/chat/{username}")         
 @ApplicationScoped
+@Authenticated
 public class ChatSocket {
 
     Map<String, Session> sessions = new ConcurrentHashMap<>(); 

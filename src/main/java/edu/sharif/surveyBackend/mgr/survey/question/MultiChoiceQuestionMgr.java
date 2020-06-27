@@ -2,9 +2,12 @@ package edu.sharif.surveyBackend.mgr.survey.question;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import edu.sharif.surveyBackend.model.survey.question.MultiChoiceQuestion;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
+@ApplicationScoped
 public class MultiChoiceQuestionMgr
 	implements PanacheRepository<MultiChoiceQuestion> {
     public MultiChoiceQuestion addMultiChoiceQuestion(List<String> options,

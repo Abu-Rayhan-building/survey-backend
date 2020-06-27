@@ -3,11 +3,14 @@ package edu.sharif.surveyBackend.mgr.university;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import edu.sharif.surveyBackend.model.university.Department;
 import edu.sharif.surveyBackend.model.university.University;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
+@ApplicationScoped
 public class DepartmentMgr implements PanacheRepository<Department> {
 
     public Department deleteDepartment(final long id) {

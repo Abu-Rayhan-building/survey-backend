@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 
 import edu.sharif.surveyBackend.model.university.Department;
@@ -12,6 +13,7 @@ import edu.sharif.surveyBackend.model.university.University;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
+@ApplicationScoped
 public class UniversityMgr implements PanacheRepository<University> {
 
     // TODO

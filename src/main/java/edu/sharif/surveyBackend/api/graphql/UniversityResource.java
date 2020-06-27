@@ -18,8 +18,10 @@ import edu.sharif.surveyBackend.mgr.university.DepartmentMgr;
 import edu.sharif.surveyBackend.mgr.university.UniversityMgr;
 import edu.sharif.surveyBackend.model.university.Department;
 import edu.sharif.surveyBackend.model.university.University;
+import io.quarkus.security.Authenticated;
 
 @GraphQLApi
+@Authenticated
 public class UniversityResource {
 
     @Inject
