@@ -40,7 +40,7 @@ public class SurveyMgr implements PanacheRepository<Survey> {
     public Survey[] availableSurveies(final User user) {
 	// language=HQL
 	final String query = "SELECT serv FROM Survey AS serv WHERE serv.begging!=null AND "
-		+ "serv.endTime=null AND" + ":user in serv.course.students ";
+		+ "serv.endTime=null AND" + ":user in serv.course.users ";
 	final Map<String, Object> params = new HashMap<>();
 	params.put("user", user);
 	PanacheQuery<Survey> result = find(query, params);
@@ -104,7 +104,7 @@ public class SurveyMgr implements PanacheRepository<Survey> {
     public Survey[] oldSurveies(final User user) {
 	// language=HQL
 	final String query = "SELECT serv FROM Survey AS serv WHERE serv.endTime< :current AND "
-		+ ":user in serv.course.students ";
+		+ ":user in serv.course.users ";
 	Map<String, Object> params = new HashMap<>();
 	params.put("current", new Date());
 	params.put("user", user);
