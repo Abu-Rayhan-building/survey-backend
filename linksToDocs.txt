@@ -1,0 +1,3 @@
+https://2much2learn.com/uploading-files-to-cloud-native-object-store-from-quarkus-restful-api/
+https://www.callicoder.com/spring-boot-file-upload-download-rest-api-example/
+https://gist.github.com/aitoroses/4f7a2b197b732a6a691d	

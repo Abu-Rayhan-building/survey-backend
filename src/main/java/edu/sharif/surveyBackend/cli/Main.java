@@ -5,19 +5,15 @@ import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 
 // wtf? this doesn't work
-//@QuarkusMain(name = "")
-public class Main {
+//@QuarkusMain
+public class Main implements QuarkusApplication {
 
     public static void main(String[] args) {
-	Quarkus.run(Test.class, args);
+	Quarkus.run(Main.class, args);
 	Quarkus.waitForExit();
 
     }
 
-}
-
-@QuarkusMain(name = "wtf")
-class Test implements QuarkusApplication {
     @Override
     public int run(String... args) throws Exception {
 	// TODO Auto-generated method stub
