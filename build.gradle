@@ -33,6 +33,17 @@ dependencies {
     implementation 'io.quarkus:quarkus-hibernate-orm'
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-resteasy'
+    // https://mvnrepository.com/artifact/io.quarkus/quarkus-bootstrap-core
+implementation group: 'io.quarkus', name: 'quarkus-bootstrap-core', version: '1.6.0.Final'
+    
+    implementation('org.jboss.resteasy:resteasy-multipart-provider') {
+  		exclude group: 'org.jboss.spec.javax.annotation', module: 'jboss-annotations-api_1.3_spec'
+  		exclude group: 'javax.activation', module: 'activation'
+    }
+	implementation 'org.apache.tika:tika-core:1.24.1'
+	// this should be removed due the first link in linksToDocs.txt
+	implementation 'com.fasterxml.woodstox:woodstox-core:6.2.0'
+
 
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'

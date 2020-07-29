@@ -8,4 +8,9 @@ pluginManagement {
       id 'io.quarkus' version "${quarkusPluginVersion}"
     }
 }
+// I can't remember what are thses
+include("platform")
+include("model")
+include("service")
+
 rootProject.name='survey-backend'
