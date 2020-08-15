@@ -58,14 +58,14 @@ public class UserAPI {
     @Consumes("application/json")
     @Produces("application/json")
     @RolesAllowed(value = { "admin" })
-    public Response create(@Valid final User question) {
-	if (question.id != null) {
+    public Response create(@Valid final User user) {
+	if (user.id != null) {
 	    throw new WebApplicationException(
 		    "Id was invalidly set on request.", 422);
 	}
 
-	question.persist();
-	return Response.ok(question).status(201).build();
+	user.persist();
+	return Response.ok(user).status(201).build();
     }
 
     @DELETE
